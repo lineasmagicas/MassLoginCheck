@@ -2,8 +2,8 @@
 V.0.1 Netflix login checker
 
 # Requirements
-Python
-Request
+Python -
+Request -
 BeautifulSoup
 
 # Install dependencies:
