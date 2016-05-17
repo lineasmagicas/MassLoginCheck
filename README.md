@@ -8,7 +8,7 @@ BeautifulSoup
 
 # Install dependencies:
 
-pip install request
+pip install request //
 pip install BeautifulSoup
 
 
