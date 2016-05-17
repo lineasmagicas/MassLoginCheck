@@ -19,12 +19,11 @@ __license__ = "GPL"
 
 try:
 	import requests
-	#Libreria para trabajar y buscar dentro de un html
 	from BeautifulSoup import BeautifulSoup as Soup
 except ImportError:
 	print "Te faltan algunas dependencias, por favor instalá: 'requests', 'BeautifulSoup'"
 
-#------- Pide user/pass -----------
+#------- User/Pass
 print("Escriba una dirección de email")
 email = raw_input()
 print("Escriba el password") 
@@ -32,30 +31,28 @@ password = raw_input()
 print("Sus credenciales introducidas fueron: "+ email, password)
 #----------------------------------
 
-#Abro una sesion y
+#Open Session
 s = requests.Session()
+#GET netflix and set User-Agent
 s.headers.update({'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0'})
-#GET a netflix y le paso eso a la sesion que abri antes. Ademas seteo el User-Agent
 login = s.get("https://www.netflix.com/ar-en/Login")
 
-# Asigno a una variable, primero contiene el html de la pagina obtenido con el GET con la sesion.
 soup=Soup(login.text)
 
-#Busca el primer form, el anteultimo input y me muestra el value. Lo asigno a una variable.
+#Search into the form.
 authURL = soup.findAll('form')[0]('input')[-2]['value']
 
-#Armo el POST a /Login con todas las variables obtenidas previamente.
+#Make the POST.
 r2 = s.post("https://www.netflix.com:443/Login", headers={"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate, br", "Referer": "https://www.netflix.com/Login", "Connection": "close", "Content-Type": "application/x-www-form-urlencoded"}, data={"email": (email), "password": (password), "rememberMeCheckbox": "true", "flow": "websiteSignUp", "mode": "login", "action": "loginAction", "withFields": "email,password,rememberMe,nextPage", "authURL": (authURL), "nextPage": "https://www.netflix.com/browse"})
-#---------Fin del POST ----------------------------------------------
+#---------end of POST ----------------------------------------------
 
-#Navego por el sitio.
+#Go to browse into Netflix.
 r1 = s.get("https://www.netflix.com/browse	")
 
-#Chequeo si el usuario fue validado o no
+#Check for valid user...
 validado = r1.text.find('Please enter a valid email')
-#print (validado)
 if validado == -1:
 	print("Exito!!!")
 else:
 	print("No funciona =( ")
-#Fin del chequeo-------------------------------------
+#End check-------------------------------------
