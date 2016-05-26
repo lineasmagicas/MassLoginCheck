@@ -1,5 +1,7 @@
 # MassLoginCheck
-V.0.1 Netflix login checker
+V.1.2 Netflix login checker
+
+DISCLAIMER: By using this software, you agree that you are responsible for your actions when using it. You may be IP banned from Netflix.
 
 # Requirements
 Python -
